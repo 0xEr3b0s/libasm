@@ -3,23 +3,22 @@
   "build": {
     "dockerfile": "Dockerfile",
     "context": "..",
-    "options": [
-      "--platform=linux/amd64",
-      "--provenance=false"
-    ]
+    "options": ["--platform=linux/amd64", "--provenance=false"]
   },
   "remoteUser": "dev",
+  "updateRemoteUserUID": true,
   "workspaceFolder": "/workspace",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
   "mounts": [
-    "source=${localEnv:HOME}/dotfiles,target=/dotfiles,type=bind,readonly"
+    "source=${localEnv:HOME}/dotfiles,target=/home/dev/.dotfiles,type=bind,readonly"
   ],
   "runArgs": [
+    "--platform=linux/amd64",
     "--cap-add=SYS_PTRACE",
     "--security-opt",
     "seccomp=unconfined"
   ],
-  "postCreateCommand": "mkdir -p ~/.config/clangd && ln -sf /dotfiles/config/clangd/config.yaml ~/.config/clangd/config.yaml && ln -sf /dotfiles/config/gdb/gdbinit ~/.gdbinit && ln -sf /dotfiles/config/clang-format/clang-format ~/.clang-format 2>/dev/null; true",
+  "postCreateCommand": "/home/dev/.dotfiles/install.sh --minimal && ln -sf /workspace/.devcontainer/wizardry.zsh ~/.zshrc.local",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -30,10 +29,10 @@
         "webfreak.debug"
       ],
       "settings": {
-        "clangd.arguments": [
-          "--compile-commands-dir=/workspace",
-          "--header-insertion=never"
-        ],
+        "clangd.path": "clangd",
+        "clangd.arguments": ["--header-insertion=never"],
+        "C_Cpp.intelliSenseEngine": "disabled",
+        "terminal.integrated.defaultProfile.linux": "zsh",
         "editor.formatOnSave": true
       }
     }

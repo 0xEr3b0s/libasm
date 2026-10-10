@@ -32,11 +32,15 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     openssh-client \
     zsh \
-    zsh-autosuggestions \
-    zsh-syntax-highlighting \
     sudo \
     ca-certificates \
     unzip \
+    ripgrep \
+    fd-find \
+    bat \
+    fzf \
+    eza \
+    tmux \
     && rm -rf /var/lib/apt/lists/*
 
 # ----------------------------------------------------------------------------
@@ -49,6 +53,9 @@ RUN apt-get update && apt-get install -y \
     gcc-14 \
     g++-14 \
     clang \
+    clangd \
+    clang-format \
+    clang-tidy \
     clang-16 \
     clang-17 \
     llvm \
@@ -145,9 +152,8 @@ RUN useradd -m -s /usr/bin/zsh dev \
     && echo "dev ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/dev \
     && chmod 0440 /etc/sudoers.d/dev
 
-COPY .devcontainer/.zshrc /home/dev/.zshrc
-
-RUN chown dev:dev /home/dev/.zshrc
+# Shell config comes from the host dotfiles (postCreateCommand runs
+# ~/.dotfiles/install.sh --minimal); project helpers live in wizardry.zsh.
 
 # ----------------------------------------------------------------------------
 # 7. Workspace

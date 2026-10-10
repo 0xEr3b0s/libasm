@@ -2,11 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <string.h>
 
 #include "libasm.h"
 
 void	test_ft_read(void)
 {
+	printf("=== Test ft_strlen ===\n");
 	int		fd;
 	char	buffer[32];
 	ssize_t	ret;
@@ -22,6 +24,7 @@ void	test_ft_read(void)
 		return ;
 	}
 	ret = ft_read(fd, buffer, sizeof(buffer));
+	buffer[31] = '\0';
 	printf("Retour de ft_read : %ld\n", ret);
 	if (ret >= 0)
 	{
@@ -79,29 +82,43 @@ void	test_ft_read(void)
 	else
 		printf("Resultat inattendu\n");
 	close(fd);
-
-	/* ========================================================= */
-	/* FIN                                                       */
-	/* ========================================================= */
-	printf("\n===== FIN DES TESTS =====\n");
+	printf("\n===== FIN DES TESTS FT_READ =====\n");
 }
 
+void	test_ft_strlen(void)
+{
+	printf("=== Test ft_read ===\n");
+	printf("\n===== TEST 1 : chaine normale =====\n");
+	printf("ft_strlen(\"Hello\") = %ld\n", ft_strlen("Hello"));
+	printf("Attendu : 5\n");
+
+	printf("\n===== TEST 2 : chaine vide =====\n");
+	printf("ft_strlen(\"\") = %ld\n", ft_strlen(""));
+	printf("Attendu : 0\n");
+
+	printf("\n===== TEST 3 : un seul caractere =====\n");
+	printf("ft_strlen(\"A\") = %ld\n", ft_strlen("A"));
+	printf("Attendu : 1\n");
+
+	printf("\n===== TEST 4 : chaine longue =====\n");
+	printf("ft_strlen(\"Bonjour le monde\") = %ld\n",
+		ft_strlen("Bonjour le monde"));
+	printf("Attendu : 16\n");
+
+	printf("\n===== TEST 5 : espaces =====\n");
+	printf("ft_strlen(\"Hello World !\") = %ld\n",
+		ft_strlen("Hello World !"));
+	printf("Attendu : 13\n");
+
+	printf("\n===== FIN DES TESTS FT_STRLEN =====\n");
+}
+
+
 int main(void) {
-	int fd = open("Makefile", O_RDONLY);
-	if (fd == -1) {
-		return 1;
-	}
+	test_ft_read();
 
-	char buffer[32];
+	test_ft_strlen();
 
-	ssize_t readed = ft_read(fd, buffer, sizeof(buffer));
-	if (readed < 0) {
-		close(fd);
-		return 1;
-	}
 
-	printf("%s\n", buffer);
-
-	close(fd);
 	return 0;
 }

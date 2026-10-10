@@ -1,40 +1,12 @@
-# Minimal zsh config for the Heavy Wizardry 101 dev container.
-# Standalone — depends on nothing from the host dotfiles.
+# Heavy Wizardry 101 - project helpers for the dev container.
+# The shell itself (history, completion, plugins, prompt, Nebula colours) comes
+# from the host dotfiles, mounted read-only at ~/.dotfiles and installed by
+# postCreateCommand. postCreateCommand links this file to ~/.zshrc.local, which
+# the dotfiles zsh config sources last.
 
-# History
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-setopt SHARE_HISTORY HIST_IGNORE_ALL_DUPS HIST_IGNORE_SPACE
-
-# Behaviour
-setopt AUTO_CD INTERACTIVE_COMMENTS
-bindkey -e
-
-# Completion
-autoload -Uz compinit && compinit
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' menu select
-
-# Plugins (installed by apt in the Dockerfile — system paths, not XDG)
-source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
-
-# Prompt — simple, shows path and git branch, no external tool
-autoload -Uz vcs_info
-precmd() { vcs_info }
-zstyle ':vcs_info:git:*' formats ' %F{magenta}(%b)%f'
-setopt PROMPT_SUBST
-PROMPT='%F{blue}%~%f${vcs_info_msg_0_} %F{green}❯%f '
-
-# Aliases
-alias ls='ls --color=auto'
-alias ll='ls -lah'
-alias gs='git status -sb'
-alias mk='make'
 alias gdb='gdb -q'
 
-# --- Heavy Wizardry 101 : multi-architecture helpers ------------------------
+# --- multi-architecture helpers ----------------------------------------------
 # Désassemblage par arche (objdump croisé fourni par les paquets gcc-*-cross)
 alias dis-x64='objdump -d -M intel'
 alias dis-arm64='aarch64-linux-gnu-objdump -d'
