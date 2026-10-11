@@ -5,7 +5,7 @@ ASM         = nasm
 ASMFLAGS    = -f elf64
 
 CC          = gcc
-CFLAGS      = -Wall -Wextra -Werror
+CFLAGS      = -Wall -Wextra -Werror -g3
 
 AR          = ar
 ARFLAGS     = rcs

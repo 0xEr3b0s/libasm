@@ -1,24 +1,35 @@
+
 {
   "name": "Heavy Wizardry 101",
+
   "build": {
     "dockerfile": "Dockerfile",
     "context": "..",
-    "options": ["--platform=linux/amd64", "--provenance=false"]
+    "options": [
+      "--platform=linux/amd64",
+      "--provenance=false"
+    ]
   },
+
   "remoteUser": "dev",
   "updateRemoteUserUID": true,
   "workspaceFolder": "/workspace",
+
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+
   "mounts": [
     "source=${localEnv:HOME}/dotfiles,target=/home/dev/.dotfiles,type=bind,readonly"
   ],
+
   "runArgs": [
     "--platform=linux/amd64",
     "--cap-add=SYS_PTRACE",
     "--security-opt",
     "seccomp=unconfined"
   ],
-  "postCreateCommand": "/home/dev/.dotfiles/install.sh --minimal && ln -sf /workspace/.devcontainer/wizardry.zsh ~/.zshrc.local",
+
+  "postCreateCommand": "/home/dev/.dotfiles/install.sh --minimal && ln -sf /workspace/.devcontainer/wizardry.zsh /home/dev/.zshrc.local",
+
   "customizations": {
     "vscode": {
       "extensions": [
@@ -28,19 +39,24 @@
         "ms-vscode.hexeditor",
         "webfreak.debug"
       ],
+
       "settings": {
         "clangd.path": "clangd",
-        "clangd.arguments": ["--header-insertion=never"],
+        "clangd.arguments": [
+          "--header-insertion=never"
+        ],
         "C_Cpp.intelliSenseEngine": "disabled",
         "terminal.integrated.defaultProfile.linux": "zsh",
         "editor.formatOnSave": true
       }
     }
   },
+
   "remoteEnv": {
     "CC": "clang",
     "CXX": "clang++"
   },
+
   "containerEnv": {
     "TERM": "xterm-256color"
   }
